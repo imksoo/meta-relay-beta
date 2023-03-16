@@ -8,7 +8,7 @@ const relay = new WebSocketServer({ port: 8080 })
 const MAX_HISTORY_SIZE = 1000
 const REMOVAL_RATIO = 0.2
 
-relay.on('connection', (downstream, request) => {
+relay.on('connection', async (downstream, request) => {
   const upstream = new WebSocket('wss://relay.nostr.wirednet.jp')
 
   logger.info('downstream open')
@@ -22,7 +22,7 @@ relay.on('connection', (downstream, request) => {
   let mutedMessages = 0
 
   upstream.on('error', console.log)
-  upstream.on('open', () => {
+  upstream.on('open', async () => {
     // logger.info('upstream open')
   })
   upstream.on('message', async (data) => {
